@@ -17,6 +17,11 @@ in_reply_to TEXT,
 email_contents TEXT NOT NULL
 )
 """)
+    cur.execute(
+    """
+    CREATE INDEX IF NOT EXISTS list_message_id ON list_messages (message_id)
+    CREATE INDEX IF NOT EXISTS list_message_subject ON list_messages (subject)
+    """)
 
 
 def process(repo, con, cur):
