@@ -4,6 +4,11 @@ import sqlite3
 import email
 from email.utils import parsedate_to_datetime
 
+"""
+Put the mailing list messages from public inbox in a sqlite database to make
+them easier to cross-reference to commits and the amlog
+"""
+
 def create_db(cur):
     cur.execute(
     """
@@ -14,6 +19,7 @@ subject TEXT NOT NULL,
 date INTEGER NOT NULL,
 from_email TEXT NOT NULL,
 in_reply_to TEXT,
+-- not clear we actually need email_contents might be better to delete
 email_contents TEXT NOT NULL
 )
 """)
