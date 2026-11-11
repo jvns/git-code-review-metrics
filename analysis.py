@@ -10,6 +10,7 @@ def find_start_message_id(cur, message_id):
     if data['in_reply_to'] is not None:
         in_reply_to = data['in_reply_to']
         # Sometimes there's extra text after the message-id in the In-Reply-To
+        # and I don't know why
         matches = re.findall("(<.+?>)", in_reply_to)
         in_reply_to = matches[0]
         try:
