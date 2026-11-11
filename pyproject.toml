@@ -1,0 +1,9 @@
+[project]
+name = "git-analysis"
+version = "0.1.0"
+dependencies = [
+    "pandas",
+    "jupyter",
+    "pygit2",
+]
+requires-python = ">=3.12"
