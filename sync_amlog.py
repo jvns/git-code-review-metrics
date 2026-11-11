@@ -2,6 +2,10 @@ from pygit2 import Repository
 import pygit2
 import sqlite3
 
+"""
+Take `notes/amlog` and put it in a sql table to make it easier to cross reference
+"""
+
 def create_db(cur):
     cur.execute(
     """
@@ -13,21 +17,6 @@ message_id TEXT NOT NULL
 """)
 
 
-# taken from https://www.hydrogen18.com/blog/list-all-files-git-repo-pygit2.html
-def walk_repo_files(repo, branch):
-    tree = repo.revparse_single(branch).tree
-    trees_and_paths = [(tree, [])]
-    # keep going until there is no more data
-    while len(trees_and_paths) != 0:
-        tree, path = trees_and_paths.pop() # take the last entry
-        for entry in tree:
-            if entry.filemode == pygit2.GIT_FILEMODE_TREE:
-                next_tree = repo.get(entry.id)
-                next_path = list(path)
-                next_path.append(entry.name)
-                trees_and_paths.append((next_tree, next_path,))
-            else:
-                yield os.path.join(*path, entry.name)
 def process(repo, con, cur):
     commit = repo.revparse_single('notes/amlog')
     # pygit doesn't seem to have libgit2's function for iterating over a tree
