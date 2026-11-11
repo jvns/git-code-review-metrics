@@ -12,3 +12,9 @@ I made symlinks
 Run all the `sync` scripts to create a SQLite DB with the data and then you can
 run the Jupyter notebook. The sync scripts are not smart now and can't do an
 incremental sync.
+
+I started Jupyter notebook like this:
+
+```
+uv run jupyter notebook
+```
