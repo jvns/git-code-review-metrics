@@ -30,3 +30,7 @@ I started Jupyter notebook like this:
 ```
 uv run jupyter notebook
 ```
+
+### LLM policy
+
+i don't necessarily expect anyone to contribute to this project but no LLM generated code please
