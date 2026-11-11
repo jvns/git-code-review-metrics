@@ -5,3 +5,4 @@ emails.db
 uv.lock
 .ipynb_checkpoints
 *-journal
+__pycache__
