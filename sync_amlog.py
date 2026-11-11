@@ -4,6 +4,10 @@ import sqlite3
 
 """
 Take `notes/amlog` and put it in a sql table to make it easier to cross reference
+
+One thing here is that sometimes there are multiple message IDs and I don't know
+what it means. I think this happens 64 times. Maybe that should be dealt with
+more explicitly in this file.
 """
 
 def create_db(cur):
