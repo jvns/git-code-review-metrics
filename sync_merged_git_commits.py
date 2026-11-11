@@ -9,7 +9,8 @@ def create_db(cur):
     CREATE TABLE IF NOT EXISTS git_commits
 (
 commit_id TEXT PRIMARY KEY,
-commit_message TEXT NOT NULL
+commit_message TEXT NOT NULL,
+merge_time INTEGER NOT NULL
 )
 """)
 
@@ -18,14 +19,15 @@ def get_commits(repo):
     i = 0
     for commit in repo.walk(last.id, pygit2.enums.SortMode.TOPOLOGICAL):
         if len(commit.parents) > 1:
-            for commit in commit.parents[1:]:
-                yield commit
+            merge_time = commit.commit_time
+            for child in commit.parents[1:]:
+                yield merge_time, child
 
 def process(repo, con, cur):
     i = 0
-    for commit in get_commits(repo):
-        data = [str(commit.id), commit.message]
-        cur.execute('INSERT OR REPLACE INTO git_commits VALUES (?, ?)', data)
+    for merge_time, commit in get_commits(repo):
+        data = [str(commit.id), commit.message, merge_time]
+        cur.execute('INSERT OR REPLACE INTO git_commits VALUES (?, ?, ?)', data)
         i += 1
         if i % 1000 == 0:
             con.commit()
