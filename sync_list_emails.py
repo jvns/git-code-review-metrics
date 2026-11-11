@@ -23,6 +23,7 @@ in_reply_to TEXT,
 email_contents TEXT NOT NULL
 )
 """)
+    # We need these indexes to follow the in-reply-to chains
     cur.execute(
     """
     CREATE INDEX IF NOT EXISTS list_message_id ON list_messages (message_id)
@@ -42,7 +43,8 @@ def process(repo, con, cur):
             try:
                 email_contents = email_object.data.decode('ISO-8859-1')
             except:
-                # save it to a file so we can figure out what's wrong manually
+                # Save it to a file so we can figure out what's wrong manually
+                # This seems to never happen which is good
                 with open('bad.txt', 'wb') as f:
                     print(email_object.data)
                     f.write(email_object.data)
@@ -56,7 +58,7 @@ def process(repo, con, cur):
         except ValueError:
             # Some dates are formatted weird. This is not a good solution but it
             # should make the errors easy to find at least.
-            # There seems to be only 1 date like this in practice.
+            # There seems to be only 1 date like this in practice
             date = 0
         message_id = m.get("Message-ID")
         reply_to = m.get("In-Reply-To", None)
